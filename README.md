@@ -1,11 +1,13 @@
 # Automatic Quesion Answering of City Council Questions
 
-Explain in short what this repository is. Mind the target audience.
-No need to go into too much technical details if you expect some people would just use it as end-users 
-and don't care about the internals (so focus on what the code really *does*), not how.
-The *_How it works_* section below would contain more technical details for curious people.
+The city council can ask the municipal executive questions to clarify certain subjects. Answering those questions is a time-consuming and complex process. This project aims to aid the task by experimenting with different NLP modeling approaches and comparing the results regarding accuracy and execution times.
 
-If applicable, you can also show an example of the final output.
+Therefore, the project aims to answer the following research question: 
+To what extent can state-of-the art NLP models for (i) information retrieval and (ii) text generation aid the process of answering Amsterdam city council questions?
+
+The planned implementation consists of two main steps: 
+(1) retrieving:  rank the answer-relevant documents from the websites 
+(2) generating: create an answer based on the most relevant documents
 
 ![](media/examples/question_types.png)
 
