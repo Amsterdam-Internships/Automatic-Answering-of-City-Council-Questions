@@ -28,3 +28,22 @@ def split_paragraphs(html_content):
     paragraphs = [p.get_text() for p in soup.find_all('p')]
 
     return paragraphs
+
+def preprocess_html(list_html):
+    # Split into paragraphs
+    paragraphs = []
+    for h in list_html:
+        paragraphs.append(split_paragraphs(h))
+    
+    # Combine all paragraphs into a single list
+    all_paragraphs = []
+    for p in paragraphs:
+        all_paragraphs.extend(p)
+    
+    # remove duplicates 
+    paragraphs_clean = list(set(all_paragraphs))
+
+    return paragraphs_clean
+
+    
+    
