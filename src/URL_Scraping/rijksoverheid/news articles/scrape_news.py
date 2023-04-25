@@ -51,7 +51,7 @@ def get_article_html(html_content):
     """
     Selects only the HTML content from 'class': 'article content'
     """
-    soup = BeautifulSoup(test, 'html.parser')
+    soup = BeautifulSoup(html_content, 'html.parser')
     div_element = soup.find('div', {'class': 'article content'})
 
     html_content = div_element.decode_contents()
