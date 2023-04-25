@@ -27,21 +27,8 @@ There are the following folders in the structure:
 1) [`media`](./media): Folder containing media files (icons, video)
 1) ...
 
-OR
-
-Or use something like `tree` to include the overall structure with preferred level of detail (`-L 2` or `-d` or `-a`...)
-```buildoutcfg
-├── media --> you can still add comments and descriptions in this tree
-│   └── examples
-├── resources --> a lot of useful links here
-├── scripts
-├── src --
-└── tests
-```
 
 
-
-If you are lacking ideas on how to structure your code at the first place, take a look at [`CookieCutter`](https://drivendata.github.io/cookiecutter-data-science/)
 
 ---
 
