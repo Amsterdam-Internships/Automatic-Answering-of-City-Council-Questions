@@ -1,6 +1,7 @@
 
 import PyPDF2
 import requests
+import io
 
 def get_pdf_text(pdf_url):
     """
