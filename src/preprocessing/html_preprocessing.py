@@ -51,3 +51,14 @@ def collect_news_content(num_pages=5, clean_documenten = True, split_par = True)
                 content = split_paragraphs(content)
             url_content[doc_url] = content
     return url_content
+
+
+def get_doc_text(html_content):
+    """
+    Input: HTML
+    Output: text
+    """
+    soup = BeautifulSoup(html_content, 'html.parser')
+    text = soup.get_text()
+    
+    return text
