@@ -66,7 +66,7 @@ class ReferenceURL:
                 if self.html_content is None:
                     self.get_html()
                 self.text = self.html_content.get_text()
-                # return self.text
+                #return self.text
             except Exception as e:
                 raise ValueError(f"Error extracting text content: {e}") from None
 
@@ -94,15 +94,18 @@ class ReferenceURL:
     
     def fetch_url(self, timeout=None):
         self.get_response(timeout)
-        self.update_url
-        self.get_response_code
+        self.update_url()
+        self.get_response_code()
         
-        if (): ### check if html
-            self.get_html
-            self.get_text
-        elif(): ### check if pdf
-            self.get_pdf_content
-            self.get_pdf_text
+        if self.url.endswith(".pdf"): # check if pdf
+            self.get_pdf_content()
+            self.get_pdf_text()
+
+        else:
+            self.get_html()
+            self.get_text()
+        
+        #return (self.url, self.html_content, self.text)
 
 
 
