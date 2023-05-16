@@ -134,7 +134,8 @@ class ReferenceURL:
 
 
 
-def create_dataset(data_path):
+def create_dataset(data_path, filter_by_urls=False,
+                    filter_by_domains=False, collect_urls=False):
     """
     Input: path to questions.csv
     Output: a list containing QuestionAnswer objects
@@ -150,11 +151,33 @@ def create_dataset(data_path):
                                     document=questions['Document'][i],
                                     urls=questions['URLs'][i])
         questions_obj.get_urls_list()
-        questions_answers.append(questions_obj)
-    
+
+        if filter_by_domains:
+            questions_obj.filter_by_domains()
+        if filter_by_urls:
+            if questions_obj.urls != None:
+                questions_answers.append(questions_obj)
+        else:
+            questions_answers.append(questions_obj)
+        
     return questions_answers
 
 
+
+class Dataset:
+    def __init__(self, data):
+        self.data = data
+
+    def with_urls(self):
+        self.data_urls = []
+
+        for sample in self.data:
+            if sample.urls != None:
+                self.data_urls.append(sample)
+            
+    def filter_by_domains(self):
+
+    
 
 
 
