@@ -22,14 +22,6 @@ class QuestionAnswer:
             self.urls = self.urls.split('\n')
         except:
             self.urls = None
-    
-    def filter_urls(self):
-             if url.endswith(")."):
-                return url[:-2]
-             elif url.endswith("."):
-                return url[:-1]
-             else:
-                 return url
 
     def filter_by_domains(self, domains=['www.amsterdam.nl', 'www.rijksoverheid.nl', 'www.rivm.nl', 'www.ggd.amsterdam.nl']):
         if self.urls is not None:
