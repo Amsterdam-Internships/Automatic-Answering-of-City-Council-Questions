@@ -154,6 +154,7 @@ def create_dataset(data_path, filter_by_urls=False,
 
         if filter_by_domains:
             questions_obj.filter_by_domains()
+
         if filter_by_urls:
             if questions_obj.urls != None:
                 questions_answers.append(questions_obj)
@@ -164,6 +165,7 @@ def create_dataset(data_path, filter_by_urls=False,
 
 
 
+############# just an idea ############## - not needed rn
 class Dataset:
     def __init__(self, data):
         self.data = data
@@ -176,6 +178,7 @@ class Dataset:
                 self.data_urls.append(sample)
             
     def filter_by_domains(self):
+        pass
 
     
 
