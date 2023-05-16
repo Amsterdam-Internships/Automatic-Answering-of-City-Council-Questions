@@ -23,10 +23,10 @@ class QuestionAnswer:
     
 
 class ReferenceURL:
-    def __init__(self, url, text_content=None, html_content=None):
+    def __init__(self, url, text_content=None, content=None):
         self.url = url
         self.text = text_content
-        self.html_content = html_content
+        self.content = content  # mayybe rename?
         self.response = None
         
     def get_response(self, timeout=None):
@@ -49,12 +49,12 @@ class ReferenceURL:
             raise ValueError("Response object not found. Please call 'get_response' first.") from None
 
     def get_html(self):
-        if self.html_content is None:
+        if self.content is None:
             try:
                 if self.response is None:
                     self.get_response()
-                self.html_content = BeautifulSoup(self.response.content, 'html.parser')
-                #return self.html_content
+                self.content = BeautifulSoup(self.response.content, 'html.parser')
+                #return self.content
             except requests.exceptions.RequestException as e:
                 raise ConnectionError(f"Error fetching URL: {e}") from None
             except Exception as e:
@@ -63,24 +63,24 @@ class ReferenceURL:
     def get_text(self):
         if self.text is None:
             try:
-                if self.html_content is None:
+                if self.content is None:
                     self.get_html()
-                self.text = self.html_content.get_text()
+                self.text = self.content.get_text()
                 #return self.text
             except Exception as e:
                 raise ValueError(f"Error extracting text content: {e}") from None
 
     def get_pdf_content(self):
-        if self.pdf_content is None:
-            self.pdf_content = self.response.content
-            #return self.pdf_content
+        if self.content is None:
+            self.content = self.response.content
+            #return self.content
     
     def get_pdf_text(self):
         if self.text is None:
             try:
-                if self.pdf_content is None:
+                if self.content is None:
                     self.get_pdf_content()
-                pdf_text = io.BytesIO(self.pdf_content)
+                pdf_text = io.BytesIO(self.content)
                 pdf_reader = PyPDF2.PdfReader(pdf_text)
 
                 self.text = ""
@@ -105,7 +105,7 @@ class ReferenceURL:
             self.get_html()
             self.get_text()
         
-        #return (self.url, self.html_content, self.text)
+        #return (self.url, self.content, self.text)
 
 
 
