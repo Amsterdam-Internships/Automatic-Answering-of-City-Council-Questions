@@ -22,6 +22,14 @@ class QuestionAnswer:
             self.urls = self.urls.split('\n')
         except:
             self.urls = None
+    
+    def filter_urls(self):
+             if url.endswith(")."):
+                return url[:-2]
+             elif url.endswith("."):
+                return url[:-1]
+             else:
+                 return url
 
     def filter_by_domains(self, domains=['www.amsterdam.nl', 'www.rijksoverheid.nl', 'www.rivm.nl', 'www.ggd.amsterdam.nl']):
         if self.urls is not None:
@@ -39,6 +47,7 @@ class QuestionAnswer:
 
         for url in self.urls:
             url_obj = ReferenceURL(url)
+            url_obj.clean_url()
             url_obj.fetch_url(timeout)
             self.collected_urls.append(url_obj)
 
@@ -67,6 +76,12 @@ class ReferenceURL:
             self.url = self.response.url
         except AttributeError:
             raise ValueError("Response object not found. Please call 'get_response' first.") from None
+    
+    def clean_url(self):
+        if self.url.endswith(")."):
+            self.url = self.url[:-2]
+        elif self.url.endswith("."):
+            self.url = self.url[:-1]
 
     def get_response_code(self):
         try:
