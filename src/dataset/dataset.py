@@ -134,6 +134,29 @@ class ReferenceURL:
 
 
 
+def create_dataset(data_path):
+    """
+    Input: path to questions.csv
+    Output: a list containing QuestionAnswer objects
+    """
+    questions = pd.read_csv(open(data_path, 'r'))
+
+    questions_answers = []
+    for i in range(len(questions) - 1):
+        questions_obj = QuestionAnswer(month = questions['Month'][i],
+                                    year=questions['Year'][i], 
+                                    question=questions['Question'][i],
+                                    answer=questions['Answer'][i],
+                                    document=questions['Document'][i],
+                                    urls=questions['URLs'][i])
+        questions_obj.get_urls_list()
+        questions_answers.append(questions_obj)
+    
+    return questions_answers
+
+
+
+
 
 ######################################################################################
 
