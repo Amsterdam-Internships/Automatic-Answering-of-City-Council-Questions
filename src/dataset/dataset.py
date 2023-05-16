@@ -8,7 +8,7 @@ import pandas as pd
 
 class QuestionAnswer:
     def __init__(self, year, month, question, answer, document, urls):
-        self. year = year
+        self.year = year
         self.month = month
         self.question = question
         self.answer = answer
@@ -17,8 +17,7 @@ class QuestionAnswer:
         self.collected_urls = None
 
     def filter_by_domains(self, domains = ['www.amsterdam.nl, www.rijksoverheid.nl, www.rivm.nl, www.ggd.amsterdam.nl']):
-        self.urls = [url if url in domains else '' for url in self.urls]
-        pass
+        self.urls = [url for url in self.urls if url in domains]
     
     def filer_factual(self, words_to_filter):
         self.question = [question if question in  words_to_filter else '' for question in self.questions]
