@@ -23,11 +23,12 @@ class QuestionAnswer:
         except:
             self.urls = None
 
-    def filter_by_domains(self, domains = ['www.amsterdam.nl, www.rijksoverheid.nl, www.rivm.nl, www.ggd.amsterdam.nl']):
+    def filter_by_domains(self, domains=['www.amsterdam.nl', 'www.rijksoverheid.nl', 'www.rivm.nl', 'www.ggd.amsterdam.nl']):
         if self.urls is not None:
-            self.urls = [url for url in self.urls if url in domains]
+            self.urls = [url for url in self.urls if any(domain in url for domain in domains)]
             if len(self.urls) == 0:
                 self.urls = None
+        #return self.urls
     
     def filer_factual(self, words_to_filter):
         self.question = [question if question in  words_to_filter else '' for question in self.questions]
@@ -144,8 +145,8 @@ def create_dataset(data_path, filter_by_urls=False,
     Output: a list containing QuestionAnswer objects
     """
     questions = pd.read_csv(open(data_path, 'r'))
-
     questions_answers = []
+
     for i in range(len(questions) - 1):
         questions_obj = QuestionAnswer(month = questions['Month'][i],
                                     year=questions['Year'][i], 
@@ -159,10 +160,11 @@ def create_dataset(data_path, filter_by_urls=False,
             questions_obj.filter_by_domains()
 
         if filter_by_urls:
-            if questions_obj.urls != None:
+            if questions_obj.urls is not None:
                 questions_answers.append(questions_obj)
         else:
             questions_answers.append(questions_obj)
+            
         
     return questions_answers
 
