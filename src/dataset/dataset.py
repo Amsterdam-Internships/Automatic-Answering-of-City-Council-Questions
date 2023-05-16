@@ -14,12 +14,27 @@ class QuestionAnswer:
         self.answer = answer
         self.document = document 
         self.urls = urls.split('\n')
-    
+        self.collected_urls = None
+
     def filter_by_domains(self, domains = ['www.amsterdam.nl, www.rijksoverheid.nl, www.rivm.nl, www.ggd.amsterdam.nl']):
         self.urls = [url if url in domains else '' for url in self.urls]
+        pass
     
     def filer_factual(self, words_to_filter):
         self.question = [question if question in  words_to_filter else '' for question in self.questions]
+        pass
+    
+    def collect_urls(self, waiting_time=None):
+        self.collected_urls = []
+
+        for url in self.urls:
+            url_obj = ReferenceURL(url)
+            url_obj.fetch_url(10)
+            self.collected_urls.append(url_obj)
+
+            if waiting_time != None: 
+                time.sleep(waiting_time)
+            
     
 
 class ReferenceURL:
@@ -28,6 +43,7 @@ class ReferenceURL:
         self.text = text_content
         self.content = content  # mayybe rename?
         self.response = None
+        self.exception = None
         
     def get_response(self, timeout=None):
         try:
@@ -93,17 +109,20 @@ class ReferenceURL:
                 raise ValueError(f"Error extracting text content: {e}") from None
     
     def fetch_url(self, timeout=None):
-        self.get_response(timeout)
-        self.update_url()
-        self.get_response_code()
-        
-        if self.url.endswith(".pdf"): # check if pdf
-            self.get_pdf_content()
-            self.get_pdf_text()
+        try: 
+            self.get_response(timeout)
+            self.update_url()
+            self.get_response_code()
+            
+            if self.url.endswith(".pdf"): # check if pdf
+                self.get_pdf_content()
+                self.get_pdf_text()
 
-        else:
-            self.get_html()
-            self.get_text()
+            else:
+                self.get_html()
+                self.get_text()
+        except Exception as e:
+            self.exception = e
         
         #return (self.url, self.content, self.text)
 
