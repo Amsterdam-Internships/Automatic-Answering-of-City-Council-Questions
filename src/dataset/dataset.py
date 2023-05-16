@@ -13,8 +13,15 @@ class QuestionAnswer:
         self.question = question
         self.answer = answer
         self.document = document 
-        self.urls = urls.split('\n')
+        self.urls = urls
         self.collected_urls = None
+    
+    def get_urls_list(self):
+        try:
+            self.urls.split('\n')
+            self.urls = self.urls.split('\n')
+        except:
+            self.urls = None
 
     def filter_by_domains(self, domains = ['www.amsterdam.nl, www.rijksoverheid.nl, www.rivm.nl, www.ggd.amsterdam.nl']):
         self.urls = [url for url in self.urls if url in domains]
@@ -23,12 +30,12 @@ class QuestionAnswer:
         self.question = [question if question in  words_to_filter else '' for question in self.questions]
         pass
     
-    def collect_urls(self, waiting_time=None):
+    def collect_urls(self, timeout, waiting_time=None):
         self.collected_urls = []
 
         for url in self.urls:
             url_obj = ReferenceURL(url)
-            url_obj.fetch_url(10)
+            url_obj.fetch_url(timeout)
             self.collected_urls.append(url_obj)
 
             if waiting_time != None: 
