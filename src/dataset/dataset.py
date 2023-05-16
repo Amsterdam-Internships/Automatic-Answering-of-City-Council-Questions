@@ -24,7 +24,10 @@ class QuestionAnswer:
             self.urls = None
 
     def filter_by_domains(self, domains = ['www.amsterdam.nl, www.rijksoverheid.nl, www.rivm.nl, www.ggd.amsterdam.nl']):
-        self.urls = [url for url in self.urls if url in domains]
+        if self.urls is not None:
+            self.urls = [url for url in self.urls if url in domains]
+            if len(self.urls) == 0:
+                self.urls = None
     
     def filer_factual(self, words_to_filter):
         self.question = [question if question in  words_to_filter else '' for question in self.questions]
