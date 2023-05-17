@@ -75,6 +75,9 @@ class ReferenceURL:
         elif self.url.endswith("."):
             self.url = self.url[:-1]
 
+        if self.url.startswith('http') == False:
+            self.url = 'http://'+self.url
+
     def get_response_code(self):
         try:
             self.response_code = self.response.status_code
