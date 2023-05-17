@@ -18,17 +18,22 @@ def collect_all(data, timeout, waiting_time):
 
 def save_data_question_answer(data):
     data_tuples = []
+    question_url = []
     #self.urls = urls
     #self.collected_urls = None
     for sample in data:
         urls = []
         for url in sample.collected_urls:
             urls.append(url.url) 
-        
+            question_url.append((sample.question, url.url, url.exception))
+
         data_tuples.append((sample.year, sample.month, sample.question, sample.answer, sample.document, urls))
 
-    with open ('data_updated_urls.pickle', 'wb') as f:
-        pickle.dump(data_tuples, f)
+    df = pd.DataFrame(data_tuples, columns=['Year', 'Month', 'Question', 'Answer', 'Document', 'URLs'])
+    df2 = pd.DataFrame(question_url, columns=['Question', 'URL', 'Exception'])
+                                             
+    df.to_csv('questions_updated_urls.csv')
+    df2.to_csv('question_url.csv')
 
 
 def save_collected_urls(data):
@@ -40,7 +45,9 @@ def save_collected_urls(data):
     
     df = pd.DataFrame(url_tuples, columns=['URL', 'Content', 'Textual_Content', 'Exception'])
 
-    df.to_csv('urls_collected_16May.csv')
+    df.to_csv('reference_urls_collected.csv')
+
+
 
 
 ###################### older function: #################
