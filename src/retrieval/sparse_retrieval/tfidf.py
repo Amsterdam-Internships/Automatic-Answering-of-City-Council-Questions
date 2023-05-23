@@ -27,3 +27,41 @@ def get_top_k_docs(query, docs, k=5):
     top_docs = [docs[x] for x in top_doc_indices] # return top k 
 
     return top_docs
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+def tfidf_search(query, collection):
+    """
+    Perform a search over all documents with the given query using tf-idf.
+    Input:
+        query - a (unprocessed) query
+        collection: a list of tuples (document_id, document_content)
+    Output: a list of (document_id, score), sorted in descending relevance to the given query
+    """
+    # Convert the collection into a dictionary to remove duplicate tuples
+    unique_collection = {doc[0]: doc[1].lower().replace('\n', '') for doc in collection}
+
+    # Preprocess the query
+    preprocessed_query = query.lower().replace('\n', '')
+
+    # Extract document contents from the unique_collection
+    document_contents = list(unique_collection.values())
+
+    # Initialize and fit the TfidfVectorizer
+    vectorizer = TfidfVectorizer()
+    matrix = vectorizer.fit_transform(document_contents)
+
+    # Transform the query using the fitted vectorizer
+    query_vector = vectorizer.transform([preprocessed_query])
+
+    # Calculate the cosine similarity between the query and document vectors
+    cosine_similarities = matrix.dot(query_vector.T).toarray().flatten()
+
+    # Create a list of (document_id, score) tuples
+    results = [(doc_id, cosine_similarities[i]) for i, doc_id in enumerate(unique_collection.keys())]
+
+    # Sort the results in descending order of relevance (score)
+    results.sort(key=lambda x: x[1], reverse=True)
+
+    return results
