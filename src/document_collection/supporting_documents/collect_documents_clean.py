@@ -10,6 +10,7 @@ src_dir = os.path.join('/Users/natalipeeva/Documents/GitHub/Draft/', 'src')
 sys.path.append(src_dir)
 from dataset.dataset import ReferenceURL
 
+import pandas as pd
 ###################################################################################################
 ##################################### amsterdam.nl ################################################ 
 ###################################################################################################
@@ -46,6 +47,17 @@ base_url = 'https://www.amsterdam.nl/'
 
 def collect_amsterdam(base_url = base_url, paths = paths):
     collect_subpages(base_url, paths)
+
+
+def save_collected_urls(data, csv_name):
+    url_tuples = []
+
+    for url in data:
+        url_tuples.append((url.url, url.content, url.text, url.exception))
+    
+    df = pd.DataFrame(url_tuples, columns=['URL', 'Content', 'Textual_Content', 'Exception'])
+
+    df.to_csv('csv_name')
 
 ###################################################################################################
 
