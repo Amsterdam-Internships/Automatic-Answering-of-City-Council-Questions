@@ -18,12 +18,12 @@ def collect_subpages(base_url, paths):
     base_url.fetch_url(random.uniform(1, 3))
     collected_urls.append(base_url)
 
-    links = base_url.html_content.find_all("a", href=lambda href: href)
+    links = base_url.content.find_all("a", href=lambda href: href)
 
     for link in links:
         if any(path in link["href"] for path in paths):
             linked_url = ReferenceURL(urljoin(base_url.url, link["href"]))
-            linked_url.fetch_url(random.uniform(2, 4))
+            linked_url.fetch_url(random.uniform(1, 3))
             collected_urls.append(linked_url)
             # Recursively follow links that contain paths
             if any(path in linked_url.url for path in paths):
@@ -44,4 +44,11 @@ base_url = 'https://www.amsterdam.nl/'
 def collect_amsterdam(base_url = base_url, paths = paths):
     collect_subpages(base_url, paths)
 
+
+
+
+
+
+
+collected_urls = []
 
