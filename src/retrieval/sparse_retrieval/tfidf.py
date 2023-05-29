@@ -65,3 +65,20 @@ def tfidf_search(query, collection):
     results.sort(key=lambda x: x[1], reverse=True)
 
     return results
+
+
+def perform_tfidf_search(queries, collection):
+    """
+    Perform TF-IDF search for each query in a list of queries.
+    Input:
+        queries - a list of queries
+        collection: a list of tuples (document_id, document_content)
+    Output: a dictionary where the key is the query and the value is a list of (document_id, score) tuples
+    """
+    search_results = {}
+
+    for query in queries:
+        results = tfidf_search(query, collection)
+        search_results[query] = results
+
+    return search_results
