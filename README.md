@@ -16,16 +16,27 @@ The planned implementation consists of two main steps:
 
 ## Project Folder Structure
 
-Explain briefly what's where so people can find their way around. For example:
+This project has the following folder structure:
 
-There are the following folders in the structure:
+1) [`notebooks`](./notebooks): Folder containing the different stages of the pipeline:
+    i) [`EDA`](./notebooks/EDA): Notebooks containing graphs and descriptive statistics of the data
+    ii) [`Ranking`](./notebooks/Ranking): Folder containing a notebook per each retrieval method
+        - BM25.ipynb: Ranks documents from the collection through the ElasticSearch API
+        - TF-IDF.ipynb:  Ranks documents from the collection based on TF-IDF and Cosine Similarity
+        - Random_retrieval: Randomly ranks documents from the collection - *to be fixed*
+        - ... Neural search methods - *to be included*
+    iii) [`Reading`](./notebooks/Reading): Folder containing a notebook per each text generation method
+        - mT5.ipynb: Summarizes the top retrieved documents from the best retrieval method
+        - ... 
+    iv) [`URL_Collection`](./notebooks/URL_Collection): Folder containing a notebook per each web scraping source
+        - Collect_amsterdam.ipynb: Collects all pages and subpages under the category 'Onderwepen' in amsterdam.nl
+        - Collect_rijksoverheijd: Collects pdfs from rijksoverheid.nl/documenten *to be included*
+        - Collect_references.ipynb: Collects all URLs that have been referenced to in the answers from the QA dataset
+4) [`src`](./src): Folder for all source files specific to this project
+5) [`data`](./data) Includes sample data - *to be included*
+6) [`tests`](./tests) Test example - *to be included*
+7) [`media`](./media): Folder containing media files (icons, video)
 
-1) [`resources`](./resources): Random nice resources, e.g. [`useful links`](./resources/README.md)
-1) [`src`](./src): Folder for all source files specific to this project
-1) [`scripts`](./scripts): Folder with example scripts for performing different tasks (could serve as usage documentation)
-1) [`tests`](./tests) Test example
-1) [`media`](./media): Folder containing media files (icons, video)
-1) ...
 
 
 
@@ -90,14 +101,10 @@ Alternatively, as a way of documenting the intended usage, you could add a `scri
 
 ## How it works
 
-You can explain roughly how the code works, what the main components are, how certain crucial steps are performed...
+
 
 ---
 ## Acknowledgements
 
-
-Don't forget to acknowledge any work by others that you have used for your project. Add links and check whether the authors have explicitly stated citation preference for using the DOI or citing a paper or so. 
-For example:
-
-Our code uses [YOLOv5](https://github.com/ultralytics/yolov5) [![DOI](https://zenodo.org/badge/264818686.svg)](https://zenodo.org/badge/latestdoi/264818686)
+*to be included*
 
