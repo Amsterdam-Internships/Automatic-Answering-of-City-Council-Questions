@@ -1,3 +1,5 @@
+import random 
+
 def precision_k(results, relevant_docs, k):
     """
         Compute Precision@K
@@ -103,4 +105,32 @@ def calculate_average_recall(recall_results):
     return average_recall
 
 
+
+
+def calculate_recall_at_k_random(queries, collection, relevant_docs, k_values):
+    """
+    Calculate Recall@K for a list of queries and specified values of k.
+    Input:
+        queries - a list of queries
+        collection: a list of tuples (document_id, document_content)
+        relevant_docs: a dictionary where the key is the query and the value is a set of relevant document IDs
+        k_values: a list of k values for recall calculation
+    Output: a dictionary where the key is the query and the value is a dictionary of recall values at each k
+    """
+    recall_results = {}
+    random.seed(42)
+    for query in queries:
+        random.shuffle(collection)  # Shuffle the collection randomly
+
+        results = collection[:max(k_values)]  # Retrieve documents randomly
+        relevant = relevant_docs[query]
+
+        recall_values = {}
+        for k in k_values:
+            recall = recall_k(results, relevant, k)
+            recall_values[k] = recall
+
+        recall_results[query] = recall_values
+
+    return recall_results
 
