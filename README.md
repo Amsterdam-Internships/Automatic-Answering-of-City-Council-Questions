@@ -29,9 +29,9 @@ This project has the following folder structure:
         - [`mT5`](./notebooks/Reading/mT5.ipynb): Summarizes the top retrieved documents from the best retrieval method
         - ... 
     4. [`URL_Collection`](./notebooks/URL_Collection): Folder containing a notebook per each web scraping source
-        - Collect_amsterdam.ipynb: Collects all pages and subpages under the category 'Onderwepen' in amsterdam.nl
+        - [`Collect_amsterdam.ipynb`](./notebooks/URL_Collection/`Collect_amsterdam.ipynb): Collects all pages and subpages under the category 'Onderwepen' in amsterdam.nl
         - Collect_rijksoverheijd: Collects pdfs from rijksoverheid.nl/documenten *to be included*
-        - Collect_references.ipynb: Collects all URLs that have been referenced to in the answers from the QA dataset
+        - [`Collect_references.ipynb`](./notebooks/URL_Collection/`Collect_references.ipynb): Collects all URLs that have been referenced to in the answers from the QA dataset
 2. [`src`](./src): Folder for all source files specific to this project
 3. [`data`](./data): Includes sample data - *to be included*
 4. [`tests`](./tests): Test example - *to be included*
