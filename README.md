@@ -18,24 +18,25 @@ The planned implementation consists of two main steps:
 
 This project has the following folder structure:
 
-1) [`notebooks`](./notebooks): Folder containing the different stages of the pipeline:
-- [`EDA`](./notebooks/EDA): Notebooks containing graphs and descriptive statistics of the data
-- [`Ranking`](./notebooks/Ranking): Folder containing a notebook per each retrieval method
-    -> BM25.ipynb: Ranks documents from the collection through the ElasticSearch API
-    -> TF-IDF.ipynb:  Ranks documents from the collection based on TF-IDF and Cosine Similarity
-    -> Random_retrieval: Randomly ranks documents from the collection - *to be fixed*
-    -> ... Neural search methods - *to be included*
-- [`Reading`](./notebooks/Reading): Folder containing a notebook per each text generation method
+1) `notebooks`: Folder containing the different stages of the pipeline:
+    i) `EDA`: Notebooks containing graphs and descriptive statistics of the data
+    ii) `Ranking`: Folder containing a notebook per each retrieval method
+        - BM25.ipynb: Ranks documents from the collection through the ElasticSearch API
+        - TF-IDF.ipynb: Ranks documents from the collection based on TF-IDF and Cosine Similarity
+        - Random_retrieval: Randomly ranks documents from the collection - *to be fixed*
+        - ... Neural search methods - *to be included*
+    iii) `Reading`: Folder containing a notebook per each text generation method
         - mT5.ipynb: Summarizes the top retrieved documents from the best retrieval method
         - ... 
-    iv) [`URL_Collection`](./notebooks/URL_Collection): Folder containing a notebook per each web scraping source
+    iv) `URL_Collection`: Folder containing a notebook per each web scraping source
         - Collect_amsterdam.ipynb: Collects all pages and subpages under the category 'Onderwepen' in amsterdam.nl
         - Collect_rijksoverheijd: Collects pdfs from rijksoverheid.nl/documenten *to be included*
         - Collect_references.ipynb: Collects all URLs that have been referenced to in the answers from the QA dataset
-4) [`src`](./src): Folder for all source files specific to this project
-5) [`data`](./data) Includes sample data - *to be included*
-6) [`tests`](./tests) Test example - *to be included*
-7) [`media`](./media): Folder containing media files (icons, video)
+4) `src`: Folder for all source files specific to this project
+5) `data`: Includes sample data - *to be included*
+6) `tests`: Test example - *to be included*
+7) `media`: Folder containing media files (icons, video)
+
 
 
 
