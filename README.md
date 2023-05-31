@@ -74,34 +74,13 @@ A person should be able to clone this repo, follow your instructions blindly, an
 
 Explain example usage, possible arguments, etc. E.g.:
 
-To train... 
-
-
-```
-$ python train.py --some-importang-argument
-```
-
-If there are too many command line arguments, you can add a nice table with explanation (thanks, [Diana Epureano](https://www.linkedin.com/in/diana-epureanu-235104153/)!)
-
-|Argument | Type or Action | Description | Default |
-|---|:---:|:---:|:---:|
-|`--batch_size`| int| `Batch size.`|  32|
-|`--device`| str| `Training device, cpu or cuda:0.`| `cpu`|
-|`--early-stopping`|  `store_true`| `Early stopping for training of sparse transformer.`| True|
-|`--epochs`| int| `Number of epochs.`| 21|
-|`--input_size`|  int| `Input size for model, i.e. the concatenation length of te, se and target.`| 99|
-|`--loss`|  str|  `Type of loss to be used during training. Options: RMSE, MAE.`|`RMSE`|
-|`--lr`|  float| `Learning rate.`| 1e-3|
-|`--train_ratio`|  float| `Percentage of the training set.`| 0.7|
-|...|...|...|...|
-
-
-Alternatively, as a way of documenting the intended usage, you could add a `scripts` folder with a number of scripts for setting up the environment, performing training in different modes or different tasks, evaluation, etc (thanks, [Tom Lotze](https://www.linkedin.com/in/tom-lotze/)!)
 
 ---
 
 
 ## How it works
+
+*Currently(30.05)*: There are three main steps: 1) Collection of the supporting documents, which is performed through the notebooks under [`URL_Collection`](./notebooks/URL_Collection). 2) Ranking of the supporting documents through the notebooks in [`Ranking`](./notebooks/Ranking). Each notebook performs a different way of ranking. Then the best one is chosen. 3) Text summarization of the top ranked documents performed through the notebooks in [`Reading`](./notebooks/Reading). 
 
 
 
