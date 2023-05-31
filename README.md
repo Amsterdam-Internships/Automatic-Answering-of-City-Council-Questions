@@ -21,12 +21,12 @@ This project has the following folder structure:
 1. [`notebooks`](./notebooks): Folder containing the different stages of the pipeline:
     1. [`EDA`](./notebooks/EDA): Notebooks containing graphs and descriptive statistics of the data
     2. [`Ranking`](./notebooks/Ranking): Folder containing a notebook per each retrieval method
-        - BM25.ipynb: Ranks documents from the collection through the ElasticSearch API
-        - TF-IDF.ipynb: Ranks documents from the collection based on TF-IDF and Cosine Similarity
-        - Random_retrieval: Randomly ranks documents from the collection - *to be fixed*
+        - [`BM25`](./notebooks/Ranking/BM25.ipynb): Ranks documents from the collection through the ElasticSearch API
+        - [`TF-IDF`](./notebooks/Ranking/TF-IDF.ipynb): Ranks documents from the collection based on TF-IDF and Cosine Similarity
+        - [`Random Retrieval`](./notebooks/Ranking/Random_retr.ipynb): Randomly ranks documents from the collection - *to be fixed*
         - ... Neural search methods - *to be included*
     3. [`Reading`](./notebooks/Reading) Folder containing a notebook per each text generation method
-        - mT5.ipynb: Summarizes the top retrieved documents from the best retrieval method
+        - [`mT5`](./notebooks/Reading/mT5.ipynb): Summarizes the top retrieved documents from the best retrieval method
         - ... 
     4. [`URL_Collection`](./notebooks/URL_Collection): Folder containing a notebook per each web scraping source
         - Collect_amsterdam.ipynb: Collects all pages and subpages under the category 'Onderwepen' in amsterdam.nl
