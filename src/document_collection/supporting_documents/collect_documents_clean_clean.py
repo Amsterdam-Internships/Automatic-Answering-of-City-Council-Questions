@@ -106,15 +106,15 @@ def get_collected(csv_path, pickle_path):
     return (visited, to_visit)
 
 
-def collect_and_save_urls(url):
-    filepath = 'data/collected/' + url.split('/')[-2] + '.csv'
+def collect_and_save_urls(url, path):
+    filepath = os.path.join(path, (url.split('/')[-2] + '.csv'))
     subpages = collect_subpages(url)
     try:
         save_collected_urls(subpages, filepath)
     except:
         save_collected_urls(subpages[0], filepath)
         left_to_collect = subpages[1]
-        left_to_collect_filepath = 'data/collected/left_to_collect_' + filepath.split('/')[-1].split('.')[0] + '.pickle'
+        left_to_collect_filepath = os.path.join(path, ('left_to_collect_' + filepath.split('/')[-1].split('.')[0] + '.pickle'))
         with open(left_to_collect_filepath, 'wb') as f:
             pickle.dump(left_to_collect, f)
 
