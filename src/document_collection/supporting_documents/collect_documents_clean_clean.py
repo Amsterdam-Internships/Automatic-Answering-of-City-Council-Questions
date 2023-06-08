@@ -9,73 +9,122 @@ src_dir = os.path.join('/Users/natalipeeva/Documents/GitHub/Draft/', 'src')
 sys.path.append(src_dir)
 from dataset.dataset import ReferenceURL
 import pandas as pd
+import pickle
 
-def collect_subpages(base_url):
-    """
-    Input: base url like https://amsterdam.nl/parkeren
-    Output: a scraped collection of all nested urls under the base one
-    """
-    visited_urls = set()
-    collection = []
-    urls_to_visit = [base_url]
-    
+
+def collect_subpages(base_url, visited_urls = None, collection = None, urls_to_visit = None):
+    collection = [] # store collected
+    if visited_urls is None and urls_to_visit is None:
+        visited_urls = []  # store visited to avoid visiting again
+        start_url = base_url
+        urls_to_visit = [start_url] # urls left to visit
+
     try:
         while urls_to_visit:
-            url = ReferenceURL(url = urls_to_visit.pop(0))
-            
-            # Skip if already visited
-            if url.url in visited_urls:
+
+            # take a url to visit and remove from urls_to_visit
+            url = urls_to_visit.pop(0)
+
+            # skip if already visited
+            if url in visited_urls:
                 continue
+            
+            visited_urls.append(url)
 
-            # Add to visited URLs
-            visited_urls.add(url.url)
-            url.fetch_url(timeout=5)
+            if check_correct_base(str(url), base_url): # check base_url
+                reference_url = ReferenceURL(url)
+                reference_url.fetch_url()
 
-            # Add check collection???
+                visited_urls.append(str(reference_url.url)) if str(reference_url.url) not in visited_urls else None
 
-            time.sleep(random.uniform(1, 3))
-            try:
-                url.fetch_url()
-                collection.append(url)
-                # Extract all anchor tags
-                if url.content is None:
-                    pass
-                else:
-                    for anchor_tag in url.content.find_all('a'):
-                        href = anchor_tag.get('href')
-                        if href:
-                            # Construct absolute URL
-                            absolute_url = urljoin(url.url, href)
-                            absolute_url = ReferenceURL(absolute_url)
-                        
-                            # Check if the URL contains the base URL and exclude specified patterns
-                            if base_url in absolute_url.url and \
-                                    not any(pattern in absolute_url.url for pattern in ['#Content', '#mainmenu', '#megamenu', '?mode=hide', '#PagCls', 'tel:', '?print=true']):
-                                
-                                # Add the URL to the list of URLs to visit
-                                urls_to_visit.append(absolute_url.url)
+                # check base_url as a redirect might cause the url to change
+                if check_correct_base(str(url), base_url):
+                    collection.append(reference_url)
 
-            except KeyboardInterrupt:
-                # Handle interruption
-                print("Execution interrupted!")
-                break
-            except:
-                pass
+                    if reference_url.content is not None:
+                        links = reference_url.content.find_all("a", href=lambda href: href)
+
+                        for link in links:
+                            linked_url = urljoin(str(base_url), link["href"])
+
+                            # Make sure it STARTS with base_url
+                            if check_correct_base(str(url), base_url) and not any(pattern in linked_url for pattern in ['#Content', '#mainmenu', '#megamenu', '?mode=hide', '#PagCls', 'tel:', '?print=true']):
+                                urls_to_visit.append(linked_url)
+
+                        time.sleep(random.uniform(1, 3))
+
+
+    except (KeyboardInterrupt, Exception) as e:
+        print("An exception occurred:", str(e),
+         "The collected urls and the urls left to visit are stores in a tuple (collection, urls_to_visit).")
+        return (collection, urls_to_visit)
     
-    except:
-        pass
-    
+
     return collection
 
 
+def is_special_case(url):
+    special_cases = ['afval-en-hergebruik', 'afval-hergebruik',
+                    'bestuur-en-organisatie', 'bestuur-organisatie', 
+                     'burgerzaken', 'diversiteit']
+    # check if the url is part of a special case
+    return any(url.startswith('https://www.amsterdam.nl/' + case) for case in special_cases)
+
+def check_correct_base(url, base_url):
+    if not is_special_case(url):
+        return url.startswith(base_url)
+    
+    if url.startswith('https://www.amsterdam.nl/afval') and base_url == 'https://www.amsterdam.nl/afval-en-hergebruik/':
+        return url.startswith('https://www.amsterdam.nl/afval-en-hergebruik/') or url.startswith('https://www.amsterdam.nl/afval-hergebruik/')
+    
+    if url.startswith('https://www.amsterdam.nl/bestuur') and base_url == 'https://www.amsterdam.nl/bestuur-en-organisatie/':
+        return url.startswith('https://www.amsterdam.nl/bestuur-en-organisatie/') or url.startswith('https://www.amsterdam.nl/bestuur-organisatie/')
+    
+    if url.startswith('https://www.amsterdam.nl/burgerzaken') and base_url =='https://www.amsterdam.nl/burgerzaken/':
+        return url.startswith('https://www.amsterdam.nl/burgerzaken/') and 'trouwlocaties-gemeente-amsterdam' not in url
+    
+    if url.startswith('https://www.amsterdam.nl/diversiteit') and base_url == 'https://www.amsterdam.nl/diversiteit/':
+        return url.startswith('https://www.amsterdam.nl/diversiteit/') and 'nationaal-slavernijmuseum/kalender/' not in url
+    
+    if url.startswith('https://www.amsterdam.nl/stadsdelen') and base_url == 'https://www.amsterdam.nl/stadsdelen/':
+        return url.startswith('https://www.amsterdam.nl/stadsdelen/') and '?embed=fotoslide' not in url
+    
+    return False
+
+    
+def get_collected(csv_path, pickle_path):
+    collected = pd.read_csv(csv_path)
+    visited = list(collected['URL'])
+    with open (pickle_path, 'rb') as f:
+        to_visit = pickle.load(f)
+    
+    return (visited, to_visit)
+
+
+def collect_and_save_urls(url):
+    filepath = 'data/collected/' + url.split('/')[-2] + '.csv'
+    subpages = collect_subpages(url)
+    try:
+        save_collected_urls(subpages, filepath)
+    except:
+        save_collected_urls(subpages[0], filepath)
+        left_to_collect = subpages[1]
+        left_to_collect_filepath = 'data/collected/left_to_collect_' + filepath.split('/')[-1].split('.')[0] + '.pickle'
+        with open(left_to_collect_filepath, 'wb') as f:
+            pickle.dump(left_to_collect, f)
 
 
 def collect_multiple_subpages(base_url, subpages_list):
     collected_full = []
+
     for subpage in subpages_list:
-        collected = collect_subpages(base_url+subpage+'/')
-        collected_full.append(collected)
-    
+        try:
+            collected = collect_subpages(base_url+subpage+'/')
+            collected_full.append(collected)
+        
+        except KeyboardInterrupt:
+            print("Execution interrupted!")
+            break
     collected_combined = [item for sublist in collected_full for item in sublist]
 
     return collected_combined
