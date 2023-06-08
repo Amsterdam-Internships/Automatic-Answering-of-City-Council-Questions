@@ -1,7 +1,13 @@
 import sys
 import os
-src_dir = os.path.join('/Users/natalipeeva/Documents/GitHub/Automatic-Answering-of-City-Council-Questions/', 'src')
+
+# absolute path of the current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# add the relative path to the source directory
+src_dir = os.path.join(current_dir, 'src')
 sys.path.append(src_dir)
+
 from dataset.dataset import ReferenceURL
 import time
 import pickle 
