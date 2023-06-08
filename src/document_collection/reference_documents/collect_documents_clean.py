@@ -16,7 +16,7 @@ def collect_all(data, timeout, waiting_time):
 
 
 
-def save_data_question_answer(data):
+def save_data_question_answer(data, path):
     data_tuples = []
     question_url = []
     #self.urls = urls
@@ -32,11 +32,11 @@ def save_data_question_answer(data):
     df = pd.DataFrame(data_tuples, columns=['Year', 'Month', 'Question', 'Answer', 'Document', 'URLs'])
     df2 = pd.DataFrame(question_url, columns=['Question', 'URL', 'Exception'])
                                              
-    df.to_csv('questions_updated_urls.csv')
-    df2.to_csv('question_url.csv')
+    df.to_csv(os.path.join(path, 'questions_updated_urls.csv'))
+    df2.to_csv(os.path.join(path,'question_url.csv'))
 
 
-def save_collected_urls(data):
+def save_collected_urls(data, path):
     url_tuples = []
 
     for sample in data:
@@ -45,4 +45,4 @@ def save_collected_urls(data):
     
     df = pd.DataFrame(url_tuples, columns=['URL', 'Content', 'Textual_Content', 'Exception'])
 
-    df.to_csv('reference_urls_collected.csv')
+    df.to_csv(os.path.join(path,'reference_urls_collected.csv'))
