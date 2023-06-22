@@ -10,7 +10,7 @@ import heapq
 
 #######################################################################
 
-def tfidf_search(query, vectorizer, matrix, collection, k):
+def tfidf_search(query, vectorizer, matrix, collection, k, get_true_passages=False):
     """
     Perform a search over all documents with the given query using tf-idf.
     Input:
@@ -22,8 +22,10 @@ def tfidf_search(query, vectorizer, matrix, collection, k):
     Output: a list of (document_id, score, document_content), sorted in descending relevance to the given query
     """
     preprocessed_query = str(query['Preprocessed_Question'])
-
-    true_documents = query['passages_ids']
+    if get_true_passages:
+        true_documents = query['passages_ids']
+    else:
+        true_documents = []
 
     query_vector = vectorizer.transform([preprocessed_query])
     question_id = query['question_id']
@@ -67,7 +69,7 @@ def tfidf_search(query, vectorizer, matrix, collection, k):
 
     return search_results 
 
-def perform_tfidf_search(queries, collection, k):
+def perform_tfidf_search(queries, collection, k, get_true_passages=False):
     """
     Perform TF-IDF search for each query in a list of queries.
     Input:
@@ -95,7 +97,7 @@ def perform_tfidf_search(queries, collection, k):
     search_results = []
 
     for query in queries: # rank for each query
-        results = tfidf_search(query, vectorizer, matrix, collection, k=k) 
+        results = tfidf_search(query, vectorizer, matrix, collection, k=k, get_true_passages=get_true_passages) 
         search_results.append(results)
 
     return search_results
@@ -106,7 +108,7 @@ def perform_tfidf_search(queries, collection, k):
 
 #######################################################################
 
-def random_search(query, collection, k):
+def random_search(query, collection, k, get_true_passages=False):
     """
     Perform Random 'search' (sampling) for each query in a list of queries.
     Input:
@@ -126,7 +128,11 @@ def random_search(query, collection, k):
         'preprocessed_answer': query['Preprocessed_Answer']
     }
     """
-    true_documents = query['passages_ids']
+
+    if get_true_passages:
+        true_documents = query['passages_ids']
+    else:
+        true_documents = []
 
     # randomly select k documents from the collection
     random_results = random.sample(collection.to_list(), k)
@@ -153,7 +159,7 @@ def random_search(query, collection, k):
     return search_results
 
 
-def perform_random_search(queries, collection, k):
+def perform_random_search(queries, collection, k, get_true_passages= False):
     """
     Perform random retrieval search for each query in a list of queries.
     Input:
@@ -165,7 +171,7 @@ def perform_random_search(queries, collection, k):
     search_results = []
 
     for query in queries:
-        results = random_search(query, collection, k=k)
+        results = random_search(query, collection, k=k, get_true_passages=get_true_passages)
         search_results.append(results)
 
     return search_results
@@ -177,7 +183,7 @@ def perform_random_search(queries, collection, k):
 
 #######################################################################
 
-def bm25_search(query, corpus, bm25, k):
+def bm25_search(query, corpus, bm25, k, get_true_passages=False):
     """
     Perform a search over all documents with the given query using BM25 ranking.
     Input:
@@ -216,7 +222,10 @@ def bm25_search(query, corpus, bm25, k):
     # Create a dictionary containing the search results
 
     query_text = query['Question']
-    true_documents = query['passages_ids']
+    if get_true_passages:
+        true_documents = query['passages_ids']
+    else:
+        true_documents = []
     question_id = query['question_id']
 
     search_results = {
@@ -234,7 +243,7 @@ def bm25_search(query, corpus, bm25, k):
 
     return search_results
 
-def perform_bm25_search(queries, corpus, k):
+def perform_bm25_search(queries, corpus, k, get_true_passages=False):
     """
     Perform BM25 Okapi search for each query in a list of queries.
     Input:
@@ -261,7 +270,7 @@ def perform_bm25_search(queries, corpus, k):
     search_results = []
 
     for query in queries:
-        results = bm25_search(query, corpus, bm25, k=k)
+        results = bm25_search(query, corpus, bm25, k=k, get_true_passages=get_true_passages)
         search_results.append(results)
 
     return search_results
