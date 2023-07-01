@@ -47,6 +47,10 @@ def get_url_content_tuples(collection_dataframe):
     
     return document_list
 
+
+
+import ast
+
 def get_relevant_docs(df):
     """
     Convert a DataFrame with questions and URLs into a dictionary.
@@ -60,7 +64,12 @@ def get_relevant_docs(df):
         question = row['Question']
         urls = row['Cleaned_URLs']
 
+        if isinstance(urls, str):
+            # Convert the string to a list
+            urls = ast.literal_eval(urls)
+
         question_urls_dict[question] = urls
 
     return question_urls_dict
+
 

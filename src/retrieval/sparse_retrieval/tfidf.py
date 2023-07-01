@@ -31,22 +31,22 @@ def get_top_k_docs(query, docs, k=5):
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-def tfidf_search(query, collection):
+import heapq
+
+def tfidf_search(query, collection, k):
     """
     Perform a search over all documents with the given query using tf-idf.
     Input:
-        query - a (unprocessed) query
+        query - an (unprocessed) query
         collection: a list of tuples (document_id, document_content)
+        k: the number of top search results to retrieve
     Output: a list of (document_id, score), sorted in descending relevance to the given query
     """
-    # Convert the collection into a dictionary to remove duplicate tuples
-    unique_collection = {doc[0]: doc[1].lower().replace('\n', '') for doc in collection}
-
     # Preprocess the query
-    preprocessed_query = query.lower().replace('\n', '')
+    preprocessed_query = str(query).lower().replace('\n', '')
 
-    # Extract document contents from the unique_collection
-    document_contents = list(unique_collection.values())
+    # Extract document contents from the collection
+    document_contents = [str(doc[1]).lower().replace('\n', '') for doc in collection]
 
     # Initialize and fit the TfidfVectorizer
     vectorizer = TfidfVectorizer()
@@ -58,27 +58,38 @@ def tfidf_search(query, collection):
     # Calculate the cosine similarity between the query and document vectors
     cosine_similarities = matrix.dot(query_vector.T).toarray().flatten()
 
-    # Create a list of (document_id, score) tuples
-    results = [(doc_id, cosine_similarities[i]) for i, doc_id in enumerate(unique_collection.keys())]
+    # Create a heap to maintain the top-k results
+    results_heap = []
+
+    # Iterate over the collection and update the heap with the top-k results
+    for i, doc in enumerate(collection):
+        doc_id = doc[0]
+        score = cosine_similarities[i]
+        heapq.heappush(results_heap, (score, doc_id))
+        if len(results_heap) > k:
+            heapq.heappop(results_heap)
 
     # Sort the results in descending order of relevance (score)
-    results.sort(key=lambda x: x[1], reverse=True)
+    results_heap.sort(reverse=True)
 
-    return results
+    return results_heap[:k]  # Return only the top-k results
 
 
-def perform_tfidf_search(queries, collection):
+
+
+def perform_tfidf_search(queries, collection, k):
     """
     Perform TF-IDF search for each query in a list of queries.
     Input:
         queries - a list of queries
         collection: a list of tuples (document_id, document_content)
+        k: the number of top search results to retrieve
     Output: a dictionary where the key is the query and the value is a list of (document_id, score) tuples
     """
     search_results = {}
 
     for query in queries:
-        results = tfidf_search(query, collection)
+        results = tfidf_search(query, collection, k=k)# Retrieve only the top k results
         search_results[query] = results
 
     return search_results

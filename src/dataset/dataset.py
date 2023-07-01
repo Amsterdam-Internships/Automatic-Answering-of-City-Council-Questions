@@ -107,7 +107,7 @@ class ReferenceURL:
                 raise ValueError(f"Error extracting text content: {e}") from None
 
     def get_pdf_content(self):
-        if self.content is None:
+        if self.content is None: # self.content  # WRONG
             self.content = self.response.content
             #return self.content
     
