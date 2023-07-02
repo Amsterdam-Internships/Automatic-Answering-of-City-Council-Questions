@@ -28,7 +28,9 @@ This project has the following folder structure:
         - [`1_1_collect_ams_at_once`](./notebooks/1_supporting_documents_collection/1_1_collect_ams_at_once.ipynb): Collects all subpages and all nested subpages under amsterdam.nl under the section 'onderwepen'
         - [`1_2_1_collect_ams_subpages_individually`](./notebooks/1_supporting_documents_collection/1_2_1_collect_ams_subpages_individually.ipynb) Collects all subpages and all nested subpages under amsterdam.nl under the section 'onderwepen' individually (section by section)
           - [`1_2_2_combine_collected_ams_subpages`](./notebooks/1_supporting_documents_collection/1_2_2_combine_collected_ams_subpages.ipynb): If the webpages have been collected and scraped individually, this notebook combines them all in a single .csv file 'combined.csv'
-        - [`3_collect_update_URLs_from_references`](./notebooks/1_supporting_documents_collection/3_collect_update_URLs_from_references.ipynb): This notebook needs to be ran -> it collects all URLs that are referenced in the answers but more importantly it updates the URLs, since some URLs have an outdated version in the answers. It saves the questions with updated URLs 'questions_updated_url.csv'. It also saves a file with questions containing only amsterdam.nl URLs which we use for ranking evaluation and a test set for text generation. The files have been added to the repository, so this step could be skipped.
+        - [`3_collect_update_URLs_from_references`](./notebooks/1_supporting_documents_collection/3_collect_update_URLs_from_references.ipynb): This notebook needs to be ran -> it collects all URLs that are referenced in the municipal executive's answers but more importantly it updates the URLs, since some URLs have an outdated version in the answers. It saves the questions with updated URLs 'questions_updated_url.csv'. It also saves a file with questions containing only amsterdam.nl URLs which we use for ranking evaluation and a test set for text generation.
+      
+        - 
    
 
 
