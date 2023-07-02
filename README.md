@@ -19,19 +19,17 @@ The planned implementation consists of two main steps:
 This project has the following folder structure:
 
 1. [`notebooks`](./notebooks): Folder containing the different stages of the pipeline:
-    1. [`EDA`](./notebooks/EDA): Notebooks containing graphs and descriptive statistics of the data
-    2. [`Ranking`](./notebooks/Ranking): Folder containing a notebook per each retrieval method
-        - [`BM25`](./notebooks/Ranking/BM25.ipynb): Ranks documents from the collection through the ElasticSearch API
-        - [`TF-IDF`](./notebooks/Ranking/TF-IDF.ipynb): Ranks documents from the collection based on TF-IDF and Cosine Similarity
-        - [`Random Retrieval`](./notebooks/Ranking/Random_retr.ipynb): Randomly ranks documents from the collection - *to be fixed*
-        - ... Neural search methods - *to be included*
-    3. [`Reading`](./notebooks/Reading) Folder containing a notebook per each text generation method
-        - [`mT5`](./notebooks/Reading/mT5.ipynb): Summarizes the top retrieved documents from the best retrieval method
-        - ... 
-    4. [`URL_Collection`](./notebooks/URL_Collection): Folder containing a notebook per each web scraping source
-        - [`Collect_amsterdam.ipynb`](./notebooks/URL_Collection/`Collect_amsterdam.ipynb): Collects all pages and subpages under the category 'Onderwepen' in amsterdam.nl
-        - Collect_rijksoverheijd: Collects pdfs from rijksoverheid.nl/documenten *to be included*
-        - [`Collect_references.ipynb`](./notebooks/URL_Collection/`Collect_references.ipynb): Collects all URLs that have been referenced to in the answers from the QA dataset
+    1. [`0_exploratory_data_analysis`](./notebooks/0_exploratory_data_analysis): Notebooks containing graphs and descriptive statistics of the data
+        - [`questions_answers_EDA`](./notebooks/EDA/questions_answers_EDA): Explores the data in terms of the questions and the answers, their length, common words, common topics
+        - [`URLs_EDA`](./notebooks/EDA/URLs_EDA): Explores the most commonly referneced URLs in the municipal answers
+    3. [`1_supporting_documents_collection`](./notebooks/1_supporting_documents_collection): Folder of notebooks containing supporting documents. You can collect the supporting documents from amsterdam.nl either all at once through [`1_1_collect_ams_at_once`](./notebooks/1_supporting_documents_collection/1_1_collect_ams_at_once.ipynb) or individually through [`1_2_1_collect_ams_subpages_individually.ipynb`](./notebooks/1_supporting_documents_collection/11_2_1_collect_ams_subpages_individually.ipynb)
+        - [`1_1_collect_ams_at_once`](./notebooks/1_supporting_documents_collection/1_1_collect_ams_at_once.ipynb): Collects all subpages and all nested subpages under amsterdam.nl under the section 'onderwepen'
+        - [`1_2_1_collect_ams_subpages_individually`](./notebooks/1_supporting_documents_collection/1_2_1_collect_ams_subpages_individually.ipynb) Collects all subpages and all nested subpages under amsterdam.nl under the section 'onderwepen' individually (section by section)
+          - [`1_2_2_combine_collected_ams_subpages`](./notebooks/1_supporting_documents_collection/1_2_2_combine_collected_ams_subpages.ipynb): If the webpages have been collected and scraped individually, this notebook combines them all in a single .csv file 'combined.csv'
+        - [`3_collect_update_URLs_from_references`](./notebooks/1_supporting_documents_collection/3_collect_update_URLs_from_references.ipynb): This notebook needs to be ran -> it collects all URLs that are referenced in the answers but more importantly it updates the URLs, since some URLs have an outdated version in the answers. It saves the questions with updated URLs 'questions_updated_url.csv'. It also saves a file with questions containing only amsterdam.nl URLs which we use for ranking evaluation and a test set for text generation. The files have been added to the repository, so this step could be skipped.
+   
+
+
 2. [`src`](./src): Folder for all source files specific to this project
 3. [`data`](./data): Includes sample data - *to be included*
 4. [`tests`](./tests): Test example - *to be included*
