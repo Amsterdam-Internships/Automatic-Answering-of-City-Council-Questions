@@ -14,7 +14,7 @@ The planned implementation consists of two main steps:
 ---
 
 ## Published Long Form Question Answering (LFQA) Dataset in Dutch 
-You can find the published LFFQA dataset with questions, posed by the Amsterdam city council and answers by the Amsterdam municipal executive in the dates ranging from 2013 till 2022 at: [`questions`](./data/question_answer/questions.csv)
+You can find the published LFFQA dataset with questions, posed by the Amsterdam city council and answers by the Amsterdam municipal executive in the dates ranging from 2013 till 2022 at: [`questions`](./data/question_answer)
 
 ## Project Folder Structure
 
