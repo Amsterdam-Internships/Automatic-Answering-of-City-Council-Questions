@@ -37,8 +37,8 @@ This project has the following folder structure:
         -  [`2_2_ranking_all_questions_nonfact_filtering`](./notebooks/1_supporting_documents_collection/2_2_ranking_all_questions_nonfact_filtering.ipynb): Filtering out non-factual questions and  ranking all of them with the most accurate strategy (tfidf) and saving them in a .pickle file
         -   [`3_1_get_train_test_set`](./notebooks/1_supporting_documents_collection/3_1_get_train_test_set.ipynb): Filtering out amsterdam.nl references from the data, which results in our training sample
         -   [`3_2_get_train_test_set_nonfact_filtered`](./notebooks/1_supporting_documents_collection/3_2_get_train_test_set_nonfact_filtered.ipynb): Filtering out amsterdam.nl references from the data - which is cleaned from non-factual questions, which results in our training sample
-        -   [`4_train_mT5_models`](./notebooks/1_supporting_documents_collection/4_train_mT5_models.ipynb): We use this notebook to fine-tine mT5 to different tasks. We change the input format according to the task we fine-tune the model on
-        - [`5_compare_mT5_finetuned_models`](./notebooks/1_supporting_documents_collection/5_compare_mT5_finetuned_models.ipynb): We evaluate the results from all fine-tuned models
+        -   [`4_train_mT5_models`](./notebooks/2_ranking_text_generation_pipeline/4_train_mT5_models.ipynb): We use this notebook to fine-tine mT5 to different tasks. We change the input format according to the task we fine-tune the model on
+        - [`5_compare_mT5_finetuned_models`](./notebooks/2_ranking_text_generation_pipeline/5_compare_mT5_finetuned_models.ipynb): We evaluate the results from all fine-tuned models
 
     4. [`3_ideas_future_work_not_included_thesis`](./notebooks/3_ideas_future_work_not_included_thesis): Notebooks containing different implementations and ideas that were not implemented in the final thesis, however, they might be useful for future work. (They are still work in progress.)
 
